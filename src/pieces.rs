@@ -1,18 +1,21 @@
 use bevy::prelude::*;
 use crate::atlas::PieceAtlas;
+
+#[derive(Component,Clone)]
+pub struct PiecePosition(pub UVec2);
 pub fn setup_pieces(mut commands: Commands, atlas: ResMut<PieceAtlas>) {
     const WHITE: usize = 0;
     const BLACK: usize = 6;
     const SQUARE_SIZE: f32 = 100.0;
     let half = SQUARE_SIZE * 4.0;
-    let mut spawn_piece = |x: i32, y: i32, index: usize| {
+    let mut spawn_piece = |x: u32, y: u32, index: usize| {
         let px = x as f32 * SQUARE_SIZE - half + SQUARE_SIZE / 2.0;
         let py = y as f32 * SQUARE_SIZE - half + SQUARE_SIZE / 2.0;
 
         commands.spawn((
             Sprite::from_atlas_image(atlas.texture.clone(), TextureAtlas{layout: atlas.layout.clone(), index}),
             Transform::from_xyz(px, py, 1.0).with_scale(Vec3::splat(0.5),
-        )));
+        ))).insert(PiecePosition(UVec2::new(x, y)));
     };
 
     // Pawns
