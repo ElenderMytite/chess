@@ -14,6 +14,7 @@ fn main() {
         ..default()
     }))
     .insert_resource(SelectedPiece(None))
+    .insert_resource(movement::Turn(pieces::PieceColor::White))
     .add_systems(Startup, board::setup_board_and_camera)
     .add_systems(Startup, (atlas::load_atlas, pieces::setup_pieces).chain())
     .add_systems(Update, movement::selection)
