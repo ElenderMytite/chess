@@ -110,6 +110,9 @@ fn world_to_board(world_pos: Option<Vec2>, cell_size: f32) -> Option<UVec2> {
         }
         let col = (world_pos.x / cell_size).floor() as u32;
         let row = (world_pos.y / cell_size).floor() as u32;
+        if col >= 8 || row >= 8 {
+            return None; // Outside board
+        }
         Some(UVec2::new(col, row))
     } else {
         None
